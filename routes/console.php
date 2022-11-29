@@ -21,8 +21,12 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('test:dispatch {seconds?}', function($seconds=5){
+  Artisan::call('down');
   ProcessCliBackend::dispatch()
-    ->delay(now()->addSeconds($seconds));
+    ->delay(now()->addSeconds($seconds))
+    ->onQueue('dev')
+  ;
+
   Log::to('queue', 'dispatch job using cli');
   $this->comment('dispatched a job: '.$seconds.'s');
 });

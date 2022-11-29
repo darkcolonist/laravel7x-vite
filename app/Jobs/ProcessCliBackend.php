@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 
 class ProcessCliBackend implements ShouldQueue
@@ -27,7 +28,6 @@ class ProcessCliBackend implements ShouldQueue
     Log::to('queue', $this->_id . ' queued');
 
     return $this->_id;
-    // echo "new job";
   }
 
   public function displayName(){
@@ -41,7 +41,9 @@ class ProcessCliBackend implements ShouldQueue
   */
   public function handle()
   {
+    // Artisan::call('down');
+    // sleep(3);
+    Artisan::call('up');
     Log::to('queue', $this->_id.' done');
-    // echo "job's done";
   }
 }

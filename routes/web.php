@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
   return view('welcome');
 });
+
+Route::prefix('test')->group(function(){
+  Route::get('up', function(){
+    return response()->json('up and running');
+  });
+});
