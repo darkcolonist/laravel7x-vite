@@ -22,10 +22,24 @@ Artisan::command('inspire', function () {
 
 Artisan::command('test:dispatch {seconds?}', function($seconds=5){
   Artisan::call('down');
+
+  /**
+   * preferred process, as included in the ProcessCliBackend, it will
+   * also display a much more verbose displayName()
+   */
   ProcessCliBackend::dispatch()
     ->delay(now()->addSeconds($seconds))
     ->onQueue('dev')
   ;
+
+  /**
+   * below also works but will only display:
+   *   Processing: Closure (console.php:30)
+   *   Processed:  Closure (console.php:30)
+   */
+  // dispatch(function(){
+  //   Artisan::call('up');
+  // })->onQueue('dev')->delay(now()->addSeconds($seconds));
 
   Log::to('queue', 'dispatch job using cli');
   $this->comment('dispatched a job: '.$seconds.'s');
