@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Helpers\Log;
+use App\Jobs\ProcessCliBackend;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -15,5 +17,12 @@ use Illuminate\Support\Facades\Artisan;
 */
 
 Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
+  $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('test:dispatch {seconds?}', function($seconds=5){
+  ProcessCliBackend::dispatch()
+    ->delay(now()->addSeconds($seconds));
+  Log::to('queue', 'dispatch job using cli');
+  $this->comment('dispatched a job: '.$seconds.'s');
+});
